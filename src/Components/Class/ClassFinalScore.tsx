@@ -1,11 +1,11 @@
 import { Component } from "react";
-import { counts } from "../../types";
+import { Counts} from "../../types";
 
 
 
-export class ClassFinalScore extends Component<{counts:counts}> {
+export class ClassFinalScore extends Component<Counts> {
   render() {
-    const {correctCount,incorrectCount} = this.props.counts;
+    const {correctCount,incorrectCount} = this.props;
     const totalCount = correctCount+incorrectCount;
     return (
       <div id="final-score">

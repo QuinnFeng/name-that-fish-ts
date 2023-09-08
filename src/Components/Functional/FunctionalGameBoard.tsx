@@ -1,7 +1,7 @@
 import "./styles/game-board.css";
 import { Images } from "../../assets/Images";
 import { useState,SyntheticEvent } from "react";
-import { gameBoardProps } from "../../types";
+
 
 const initialFishes = [
   {
@@ -22,7 +22,11 @@ const initialFishes = [
   },
 ];
 
-export function FunctionalGameBoard({updateCounts,setIsFinish}:gameBoardProps) {
+interface FunctionalGameBoardProps {
+    updateCounts: (isCorrect: boolean) => void;
+}
+
+export function FunctionalGameBoard({ updateCounts }:FunctionalGameBoardProps) {
   const [index,setIndex]=useState(0);
   const [fishName,setFishName]=useState("");
   const nextFishToName = initialFishes[index];
@@ -30,10 +34,7 @@ export function FunctionalGameBoard({updateCounts,setIsFinish}:gameBoardProps) {
 
   const submitHandler=(e:SyntheticEvent)=>{
     e.preventDefault(); 
-    updateCounts(fishName===initialFishes[index].name);
-    if(index===initialFishes.length-1){
-      setIsFinish(true);
-    }
+    updateCounts(fishName===nextFishToName.name);
     setIndex(index+1);
     setFishName("");
   }

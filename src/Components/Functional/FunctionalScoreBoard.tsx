@@ -1,18 +1,25 @@
-import { initialFishesName, scoreBoardProps } from "../../types";
+import { useEffect, useState } from "react";
+import { Counts, initialFishesName } from "../../types";
 import "./styles/score-board.css";
 //  Where the score is presented
 
 const answersLeft = ["trout", "salmon", "tuna", "shark"];
 
-export function FunctionalScoreBoard({scoreBoardProps}:{scoreBoardProps:scoreBoardProps}) {
-  const {incorrectCount,correctCount} = scoreBoardProps.counts;
-  if(scoreBoardProps.isCorrect){
-    const fishToRemove = initialFishesName[incorrectCount + correctCount - 1];
-    const indexToRemove = answersLeft.findIndex((value) => value == fishToRemove);
-    if(indexToRemove!=-1){
-      answersLeft.splice(indexToRemove,1);
+export function FunctionalScoreBoard(Counts: Counts) {
+  const { correctCount, incorrectCount } = Counts;
+  const [prevCorrectCount, setPrevCorrectCount] = useState(0);
+
+  useEffect(() => {
+    if (correctCount > prevCorrectCount) {
+      const fishToRemove = initialFishesName[correctCount + incorrectCount - 1];
+      const indexToRemove = answersLeft.findIndex(
+        (value) => value == fishToRemove
+      );
+      answersLeft.splice(indexToRemove, 1);
+      setPrevCorrectCount(correctCount);
     }
-  }
+  }, [correctCount]);
+
   return (
     <div id="score-board">
       <div>Incorrect 🔻: {incorrectCount}</div>

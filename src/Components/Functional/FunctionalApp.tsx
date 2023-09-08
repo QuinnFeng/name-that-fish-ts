@@ -2,39 +2,26 @@ import { FunctionalGameBoard } from "./FunctionalGameBoard";
 import { FunctionalScoreBoard } from "./FunctionalScoreBoard";
 import { FunctionalFinalScore } from "./FunctionalFinalScore";
 import { useState } from "react";
+import { initialFishesName } from "../../types";
 
 export function FunctionalApp() {
-  const [counts,setCounts]= useState({correctCount:0,incorrectCount:0});
-  const [isCorrect,setIsCorrect]=useState<boolean|null>(null);
-  const [isFinish,setIsFinish]=useState(false);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [incorrectCount, setIncorrectCount] = useState(0);
 
-  function updateCounts(isCorrect:boolean){
-    const updatedCounts = isCorrect ? {
-      ...counts,
-      correctCount: counts.correctCount + 1,
-    }
-    : {
-        ...counts,
-        incorrectCount: counts.incorrectCount + 1,
-    };
-    setCounts(updatedCounts);
-    setIsCorrect(isCorrect);
+  function updateCounts(isCorrect: boolean) {
+    isCorrect ? setCorrectCount(correctCount + 1) : setIncorrectCount(incorrectCount + 1);
   }
 
   return (
     <>
-      {
-        !isFinish?
+      {!(correctCount + incorrectCount === initialFishesName.length) ? (
         <>
-          <FunctionalScoreBoard scoreBoardProps={{counts,isCorrect}}/>
-          <FunctionalGameBoard 
-              updateCounts = {(isCorrect: boolean) => updateCounts(isCorrect)}
-              setIsFinish  = {(isFinish: boolean) => setIsFinish(isFinish)}
-          />
+          <FunctionalScoreBoard correctCount={correctCount} incorrectCount={incorrectCount} />
+          <FunctionalGameBoard updateCounts={updateCounts} />
         </>
-        :
-        <FunctionalFinalScore counts={{...counts}} />
-      }
+      ) : (
+        <FunctionalFinalScore correctCount={correctCount} incorrectCount={incorrectCount} />
+      )}
     </>
   );
 }

@@ -2,56 +2,48 @@ import { Component } from "react";
 import { ClassScoreBoard } from "./ClassScoreBoard";
 import { ClassGameBoard } from "./ClassGameBoard";
 import { ClassFinalScore } from "./ClassFinalScore";
-import { ClassAppState} from "../../types";
+import { initialFishesName } from "../../types";
 
-
-
-export class ClassApp extends Component<Record<string,never>, ClassAppState> {
-
+export class ClassApp extends Component<Record<string, never>, ClassAppState> {
   state: ClassAppState = {
-    counts: {
-      correctCount: 0,
-      incorrectCount: 0
-    },
-    isCorrect: null,
-    isFinish: false
-  }
-
+    correctCount: 0,
+    incorrectCount: 0,
+  };
 
   updateCounts(isCorrect: boolean) {
-    const prevCounts = this.state.counts;
-    const updatedCounts = isCorrect ? {
-      ...prevCounts,
-      correctCount: prevCounts.correctCount + 1,
-    }
-      : {
-        ...prevCounts,
-        incorrectCount: prevCounts.incorrectCount + 1,
-      };
-    this.setState({counts: { ...updatedCounts } ,isCorrect});
-  }
-
-  setIsFinish(isFinish: boolean) {
-    this.setState({ isFinish });
+    isCorrect
+      ? this.setState({ correctCount: this.state.correctCount + 1 })
+      : this.setState({ incorrectCount: this.state.incorrectCount + 1 });
   }
 
   render() {
-    const { counts,isCorrect, isFinish } = this.state;
+    const { correctCount, incorrectCount } = this.state;
     return (
       <>
-        {
-          !isFinish ?
+        {!(correctCount + incorrectCount == initialFishesName.length) ? (
           <>
-            <ClassScoreBoard scoreBoardProps={{counts,isCorrect}} />
-            <ClassGameBoard 
-              updateCounts = {(isCorrect: boolean) => this.updateCounts(isCorrect)} 
-              setIsFinish  = {(isFinish: boolean) => this.setIsFinish(isFinish)}
+            <ClassScoreBoard
+              correctCount={correctCount}
+              incorrectCount={incorrectCount}
+            />
+            <ClassGameBoard
+              updateCounts={(isCorrect: boolean) =>
+                this.updateCounts(isCorrect)
+              }
             />
           </>
-          :
-          <ClassFinalScore counts={counts} />
-        }
+        ) : (
+          <ClassFinalScore
+            correctCount={correctCount}
+            incorrectCount={incorrectCount}
+          />
+        )}
       </>
     );
   }
+}
+
+export interface ClassAppState {
+  incorrectCount: number;
+  correctCount: number;
 }
