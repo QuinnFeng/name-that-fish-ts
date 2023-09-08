@@ -13,7 +13,6 @@ export class ClassScoreBoard extends Component<Counts> {
   componentDidUpdate(prevProps: Counts) {
     const { incorrectCount: cIC, correctCount: cCC } = this.props;
     const { correctCount: pCC } = prevProps;
-    console.log(pCC + "" + cIC + " " + cCC);
     if (cCC > pCC) {
       const fishToRemove = initialFishesName[cIC + cCC - 1];
       const indexToRemove = answersLeft.findIndex(
