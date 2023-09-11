@@ -2,7 +2,7 @@ import { Component, SyntheticEvent } from "react";
 import "./styles/game-board.css";
 import { Images } from "../../assets/Images";
 
-const initialFishes = [
+export const initialFishes = [
   {
     name: "trout",
     url: Images.trout,

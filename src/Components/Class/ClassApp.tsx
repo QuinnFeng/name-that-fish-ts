@@ -2,7 +2,7 @@ import { Component } from "react";
 import { ClassScoreBoard } from "./ClassScoreBoard";
 import { ClassGameBoard } from "./ClassGameBoard";
 import { ClassFinalScore } from "./ClassFinalScore";
-import { initialFishesName } from "../../types";
+import { initialFishes } from "../Functional/FunctionalGameBoard";
 
 export class ClassApp extends Component<Record<string, never>, ClassAppState> {
   state: ClassAppState = {
@@ -18,9 +18,11 @@ export class ClassApp extends Component<Record<string, never>, ClassAppState> {
 
   render() {
     const { correctCount, incorrectCount } = this.state;
+    const totalCount = correctCount + incorrectCount;
+    const isFinished = totalCount === initialFishes.length;
     return (
       <>
-        {!(correctCount + incorrectCount == initialFishesName.length) ? (
+        {!isFinished ? (
           <>
             <ClassScoreBoard
               correctCount={correctCount}

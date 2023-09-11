@@ -1,30 +1,23 @@
-import { useEffect, useState } from "react";
-import { Counts, initialFishesName } from "../../types";
+import { initialFishes } from "./FunctionalGameBoard";
 import "./styles/score-board.css";
 //  Where the score is presented
 
-const answersLeft = ["trout", "salmon", "tuna", "shark"];
+const answersLeft = initialFishes.map(fish=>fish.name);
+const length=answersLeft.length;
 
-export function FunctionalScoreBoard(Counts: Counts) {
-  const { correctCount, incorrectCount } = Counts;
-  const [prevCorrectCount, setPrevCorrectCount] = useState(0);
+interface FunctionalScoreBoardProps{
+  correctCount:number;
+  incorrectCount:number;
+}
 
-  useEffect(() => {
-    if (correctCount > prevCorrectCount) {
-      const fishToRemove = initialFishesName[correctCount + incorrectCount - 1];
-      const indexToRemove = answersLeft.findIndex(
-        (value) => value == fishToRemove
-      );
-      answersLeft.splice(indexToRemove, 1);
-      setPrevCorrectCount(correctCount);
-    }
-  }, [correctCount]);
+export function FunctionalScoreBoard({correctCount,incorrectCount}:FunctionalScoreBoardProps) {
+  const totalCount=correctCount+incorrectCount;
 
   return (
     <div id="score-board">
       <div>Incorrect 🔻: {incorrectCount}</div>
       <div id="choices-left">
-        {answersLeft.map((answer) => (
+        {answersLeft.slice(totalCount,length).map((answer) => (
           <div key={answer} className="choice">
             {answer}
           </div>

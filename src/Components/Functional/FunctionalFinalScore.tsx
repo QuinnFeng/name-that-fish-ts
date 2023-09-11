@@ -1,8 +1,14 @@
 import "./styles/final-score.css";
-import { Counts } from "../../types";
 
-export function FunctionalFinalScore(Counts: Counts) {
-  const { correctCount, incorrectCount } = Counts;
+interface FunctionalFinalScoreProps {
+  correctCount: number;
+  incorrectCount: number;
+}
+
+export function FunctionalFinalScore({
+  correctCount,
+  incorrectCount,
+}: FunctionalFinalScoreProps) {
   const totalCount = correctCount + incorrectCount;
   return (
     <div id="final-score">

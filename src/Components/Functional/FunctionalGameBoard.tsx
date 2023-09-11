@@ -3,7 +3,7 @@ import { Images } from "../../assets/Images";
 import { useState,SyntheticEvent } from "react";
 
 
-const initialFishes = [
+export const initialFishes = [
   {
     name: "trout",
     url: Images.trout,
